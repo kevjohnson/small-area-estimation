@@ -13,30 +13,30 @@
 ##' @param dir Destination directory for downloaded files.
 ##' @return Dataframe containing all data from specified years and files.
 getNHANES <- function(years, files, variables = NULL, dir) {
-  require(dplyr)
-  yearLetters <- c("1999" = "A", "2001" = "B", "2003" = "C", "2005" = "D",
-                   "2007" = "E", "2009" = "F", "2011" = "G", "2013" = "H")
-  dataList <- list()
-  i <- 1
-  for (y in years) {
-    dataListYear <- list()
-    j <- 1
-    for (f in files) {
-      url <- paste("http://wwwn.cdc.gov/Nchs/Nhanes/", y, "-", y+1, "/", f,
-                   "_", yearLetters[as.character(y)], ".XPT", sep = "")
-      data <- retrieveFile(url, dir, format = "xpt")
-      if (!is.null(variables)) {
-        dataListYear[[j]] <- data[,variables[[j]]]
-      } else {
-        dataListYear[[j]] <- data
-      }
-      j <- j + 1
+    require(dplyr)
+    yearLetters <- c("1999" = "A", "2001" = "B", "2003" = "C", "2005" = "D",
+                     "2007" = "E", "2009" = "F", "2011" = "G", "2013" = "H")
+    dataList <- list()
+    i <- 1
+    for (y in years) {
+        dataListYear <- list()
+        j <- 1
+        for (f in files) {
+            url <- paste("http://wwwn.cdc.gov/Nchs/Nhanes/", y, "-", y+1, "/", f,
+                         "_", yearLetters[as.character(y)], ".XPT", sep = "")
+            data <- retrieveFile(url, dir, format = "xpt")
+            if (!is.null(variables)) {
+                dataListYear[[j]] <- data[,variables[[j]]]
+            } else {
+                dataListYear[[j]] <- data
+            }
+            j <- j + 1
+        }
+        dataList[[i]] <- Reduce(dplyr::full_join, dataListYear)
+        i <- i + 1
     }
-    dataList[[i]] <- Reduce(dplyr::full_join, dataListYear)
-    i <- i + 1
-  }
-  finalData <- do.call(rbind, dataList)
-  return(finalData)
+    finalData <- do.call(rbind, dataList)
+    return(finalData)
 }
 
 
@@ -51,13 +51,13 @@ getNHANES <- function(years, files, variables = NULL, dir) {
 ##' @param ... Additional parameters passed to \code{rio::import}.
 ##' @return Dataframe with specified data.
 retrieveFile <- function(url, dir, ...) {
-  split <- unlist(strsplit(url, "/"))
-  fname <- paste(dir, split[length(split)], sep = "/")
-  if (!file.exists(fname)) {
-    message(paste(fname, "does not exist.  Downloading file..."))
-    dir.create(dir, showWarnings = FALSE)
-    download.file(url, fname)
-  }
-  message(paste("Importing", fname))
-  return(rio::import(fname, ...))
+    split <- unlist(strsplit(url, "/"))
+    fname <- paste(dir, split[length(split)], sep = "/")
+    if (!file.exists(fname)) {
+        message(paste(fname, "does not exist.  Downloading file..."))
+        dir.create(dir, showWarnings = FALSE)
+        download.file(url, fname)
+    }
+    message(paste("Importing", fname))
+    return(rio::import(fname, ...))
 }
