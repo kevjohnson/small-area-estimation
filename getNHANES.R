@@ -51,6 +51,7 @@ getNHANES <- function(years, files, variables = NULL, dir) {
 ##' @param ... Additional parameters passed to \code{rio::import}.
 ##' @return Dataframe with specified data.
 retrieveFile <- function(url, dir, ...) {
+    require(rio)
     split <- unlist(strsplit(url, "/"))
     fname <- paste(dir, split[length(split)], sep = "/")
     if (!file.exists(fname)) {
