@@ -14,7 +14,7 @@ variables <- list(c("SEQN", "SDMVPSU", "SDMVSTRA", "WTINT2YR", "WTMEC2YR",
                   c("SEQN", "SXQ260"), c("SEQN", "LBXHE2"), c("SEQN", "HID010"))
 files <- c("DEMO", "DIQ", "L10AM", "L05", "SXQ", "HCQ", "MCQ", "SXQ",
            "L09", "HIQ")
-data1 <- getNhanes(years = c(2001, 2003), files = files, dir = dir,
+data1 <- getNHANES(years = c(2001, 2003), files = files, dir = dir,
                    variables = variables)
 colnames(data1) <- c("id", "psu", "strata", "wtint", "wtmec", "gender", "age",
                      "race", "edu", "mar", "hhsize", "poverty", "diabetes",
@@ -31,7 +31,7 @@ variables <- list(c("SEQN", "SDMVPSU", "SDMVSTRA", "WTINT2YR", "WTMEC2YR",
                   c("SEQN", "SXQ260"), c("SEQN", "LBXHE2"), c("SEQN", "HIQ011"))
 files <- c("DEMO", "DIQ", "GLU", "CHLMDA", "SXQ", "HCQ", "MCQ", "SXQ",
            "HSV", "HIQ")
-data2 <- getNhanes(years = c(2005, 2007, 2009, 2011), files = files, dir = dir,
+data2 <- getNHANES(years = c(2005, 2007, 2009, 2011), files = files, dir = dir,
                    variables = variables)
 colnames(data2) <- c("id", "psu", "strata", "wtint", "wtmec", "gender", "age",
                      "race", "edu", "mar", "hhsize", "poverty", "diabetes",
@@ -42,7 +42,7 @@ colnames(data2) <- c("id", "psu", "strata", "wtint", "wtmec", "gender", "age",
 # Asthma
 variables <- list(c("SEQN", "SPDBRONC"))
 files <- c("SPX")
-asthmaData <- getNhanes(years = c(2007, 2009, 2011), files = files, dir = dir,
+asthmaData <- getNHANES(years = c(2007, 2009, 2011), files = files, dir = dir,
                         variables = variables)
 colnames(asthmaData) <- c("id", "asthmaTest")
 
@@ -88,7 +88,7 @@ data$undiagnosedDiabetes <- ifelse(data$diabetes == 2 & data$diabetesTruth == 1,
 design <- svydesign(id = ~psu, strata = ~strata, weights = ~wtfast, nest = TRUE,
                     data = data[!(is.na(data$wtfast)) & data$age > 20,])
 diabetes <- evaluateModel(design, "undiagnosedDiabetes", vars)
-summary(diabetes)
+write.csv("../data/diabetes_coefficients.txt", row.names = FALSE)
 
 # Hepatitis C
 data$undiagnosedHepC <- ifelse(data$hepatitisC == 1, 1, 0)
