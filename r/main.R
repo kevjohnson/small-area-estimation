@@ -101,7 +101,7 @@ design <- svydesign(id = ~psu, strata = ~strata, weights = ~wtmec, nest = TRUE,
                     data = data[!(is.na(data$wtmec)) & data$age > 20,])
 hepatitisC <- evaluateModel(design, "undiagnosedHepC", vars)
 hepcCoef <- data.frame(var = names(hepc$coefficients),
-                           coef = hepc$coefficients)
+                       coef = hepc$coefficients)
 write.csv(hepcCoef, "../data/hepc_coefficients.txt", row.names = FALSE)
 
 # Asthma
@@ -114,7 +114,7 @@ design <- svydesign(id = ~psu, strata = ~strata, weights = ~wtmec, nest = TRUE,
                     data = data[data$age >20,])
 asthma <- evaluateModel(design, "asthma", vars)
 asthmaCoef <- data.frame(var = names(asthma$coefficients),
-                           coef = asthma$coefficients)
+                         coef = asthma$coefficients)
 write.csv(asthmaCoef, "../data/asthma_coefficients.txt", row.names = FALSE)
 
 # Herpes
@@ -127,5 +127,5 @@ design <- svydesign(id = ~psu, strata = ~strata, weights = ~wtmec, nest = TRUE,
                     data = data[data$age >20,])
 herpes <- evaluateModel(design, "undiagnosedHerpes", vars)
 herpesCoef <- data.frame(var = names(herpes$coefficients),
-                           coef = herpes$coefficients)
+                         coef = herpes$coefficients)
 write.csv(herpesCoef, "../data/herpes_coefficients.txt", row.names = FALSE)
