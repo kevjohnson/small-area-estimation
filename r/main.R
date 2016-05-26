@@ -99,7 +99,7 @@ data$undiagnosedHepC <- ifelse(data$hepatitisC == 1, 1, 0)
 data$undiagnosedHepC[is.na(data$undiagnosedHepC)] <- 0
 design <- svydesign(id = ~psu, strata = ~strata, weights = ~wtmec, nest = TRUE,
                     data = data[!(is.na(data$wtmec)) & data$age > 20,])
-hepatitisC <- evaluateModel(design, "undiagnosedHepC", vars)
+hepc <- evaluateModel(design, "undiagnosedHepC", vars)
 hepcCoef <- data.frame(var = names(hepc$coefficients),
                        coef = hepc$coefficients)
 write.csv(hepcCoef, "../data/hepc_coefficients.txt", row.names = FALSE)
