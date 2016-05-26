@@ -64,22 +64,22 @@ data$edu <- ifelse(data$edu %in% c(1,2), 1,
                    ifelse(data$edu %in% c(3,4), 2,
                           ifelse(data$edu %in% 5, 3, NA)))
 data$edu <- factor(data$edu, levels = c(1,2,3),
-                   labels = c("No High School", "High School", "College"))
+                   labels = c("NoHighSchool", "HighSchool", "College"))
 data$poverty <- ifelse(data$poverty < 2, 1,
                        ifelse(data$poverty >= 2, 2, NA))
 data$poverty <- factor(data$poverty, levels = c(1,2),
-                       labels = c("Below Poverty Line", "Above Poverty Line"))
+                       labels = c("Below", "Above"))
 data$ins <- ifelse(data$healthInsurance == 1, 1,
                    ifelse(data$healthInsurance == 2, 0, NA))
 data$ins <- factor(data$ins, levels = c(0,1),
-                   labels = c("Health Insurance", "No Health Insurance"))
+                   labels = c("Yes", "No"))
 
 # Define reference group
 data$gender <- relevel(data$gender, ref = "Male")
 data$race <- relevel(data$race, ref = "White")
 data$edu <- relevel(data$edu, ref = "College")
-data$poverty <- relevel(data$poverty, ref = "Above Poverty Line")
-data$ins <- relevel(data$ins, ref = "Health Insurance")
+data$poverty <- relevel(data$poverty, ref = "Above")
+data$ins <- relevel(data$ins, ref = "Yes")
 
 # Variables to consider in the model
 vars <- c("age", "hhsize", "poverty", "gender", "race", "edu", "ins")
