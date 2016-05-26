@@ -96,7 +96,7 @@ data$undiagnosedHepC[is.na(data$undiagnosedHepC)] <- 0
 design <- svydesign(id = ~psu, strata = ~strata, weights = ~wtmec, nest = TRUE,
                     data = data[!(is.na(data$wtmec)) & data$age > 20,])
 hepatitisC <- evaluateModel(design, "undiagnosedHepC", vars)
-summary(hepatitisC)
+write.csv(coef(hepatitisC), "../data/hepc_coefficients.txt", row.names = FALSE)
 
 # Asthma
 data$asthmaTest <- ifelse(data$asthmaTest == 1, 1,
@@ -107,7 +107,7 @@ data$asthma <- ifelse(data$asthmaTest == 1 & data$asthmaAnswer == 0, 1, 0)
 design <- svydesign(id = ~psu, strata = ~strata, weights = ~wtmec, nest = TRUE,
                     data = data[data$age >20,])
 asthma <- evaluateModel(design, "asthma", vars)
-summary(asthma)
+write.csv(coef(asthma), "../data/asthma_coefficients.txt", row.names = FALSE)
 
 # Herpes
 data$herpesTest <- ifelse(data$herpesTest == 1, 1,
@@ -118,4 +118,4 @@ data$undiagnosedHerpes <- ifelse(data$herpesTest == 1 & data$herpesAnswer == 0, 
 design <- svydesign(id = ~psu, strata = ~strata, weights = ~wtmec, nest = TRUE,
                     data = data[data$age >20,])
 herpes <- evaluateModel(design, "undiagnosedHerpes", vars)
-summary(fit)
+write.csv(coef(herpes), "../data/herpes_coefficients.txt", row.names = FALSE)
