@@ -90,7 +90,7 @@ data$undiagnosedDiabetes <- ifelse(data$diabetes == 2 & data$diabetesTruth == 1,
 design <- svydesign(id = ~psu, strata = ~strata, weights = ~wtfast, nest = TRUE,
                     data = data[!(is.na(data$wtfast)) & data$age > 20,])
 diabetes <- evaluateModel(design, "undiagnosedDiabetes", vars)
-write.csv("../data/diabetes_coefficients.txt", row.names = FALSE)
+write.csv(coef(diabetes), "../data/diabetes_coefficients.txt", row.names = FALSE)
 
 # Hepatitis C
 data$undiagnosedHepC <- ifelse(data$hepatitisC == 1, 1, 0)
