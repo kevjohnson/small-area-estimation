@@ -83,6 +83,11 @@ data$ins <- relevel(data$ins, ref = "Yes")
 
 # Variables to consider in the model
 vars <- c("age", "hhsize", "poverty", "gender", "race", "edu", "ins")
+varsWithLevels <- data.frame(var = c("(Intercept)", "age", "hhsize", 
+                                     "povertyBelow", "genderFemale",
+                                     "raceHispanic", "raceBlack", "raceOther",
+                                     "eduNoHighSchool", "eduHighSchool",
+                                     "insNo"))
 
 # Diabetes
 data$diabetesTruth <- ifelse(data$glucose >= 126, 1, 0)
@@ -92,7 +97,8 @@ design <- svydesign(id = ~psu, strata = ~strata, weights = ~wtfast, nest = TRUE,
 diabetes <- evaluateModel(design, "undiagnosedDiabetes", vars)
 diabetesCoef <- data.frame(var = names(diabetes$coefficients),
                            coef = diabetes$coefficients)
-write.csv(diabetesCoef, "../data/diabetes_coefficients.txt", row.names = FALSE)
+diabetesOut <- left_join(varsWithLevels, diabetesCoef)
+write.csv(diabetesOut, "../data/diabetes_coefficients.txt", row.names = FALSE)
 
 # Hepatitis C
 data$undiagnosedHepC <- ifelse(data$hepatitisC == 1, 1, 0)
@@ -102,7 +108,8 @@ design <- svydesign(id = ~psu, strata = ~strata, weights = ~wtmec, nest = TRUE,
 hepc <- evaluateModel(design, "undiagnosedHepC", vars)
 hepcCoef <- data.frame(var = names(hepc$coefficients),
                        coef = hepc$coefficients)
-write.csv(hepcCoef, "../data/hepc_coefficients.txt", row.names = FALSE)
+hepcOut <- left_join(varsWithLevels, hepcCoef)
+write.csv(hepcOut, "../data/hepc_coefficients.txt", row.names = FALSE)
 
 # Asthma
 data$asthmaTest <- ifelse(data$asthmaTest == 1, 1,
@@ -115,7 +122,8 @@ design <- svydesign(id = ~psu, strata = ~strata, weights = ~wtmec, nest = TRUE,
 asthma <- evaluateModel(design, "asthma", vars)
 asthmaCoef <- data.frame(var = names(asthma$coefficients),
                          coef = asthma$coefficients)
-write.csv(asthmaCoef, "../data/asthma_coefficients.txt", row.names = FALSE)
+asthmaOut <- left_join(varsWithLevels, asthmaCoef)
+write.csv(asthmaOut, "../data/asthma_coefficients.txt", row.names = FALSE)
 
 # Herpes
 data$herpesTest <- ifelse(data$herpesTest == 1, 1,
@@ -128,4 +136,5 @@ design <- svydesign(id = ~psu, strata = ~strata, weights = ~wtmec, nest = TRUE,
 herpes <- evaluateModel(design, "undiagnosedHerpes", vars)
 herpesCoef <- data.frame(var = names(herpes$coefficients),
                          coef = herpes$coefficients)
-write.csv(herpesCoef, "../data/herpes_coefficients.txt", row.names = FALSE)
+herpesOut <- left_join(varsWithLevels, herpesCoef)
+write.csv(herpesOut, "../data/herpes_coefficients.txt", row.names = FALSE)
