@@ -1,0 +1,12 @@
+"var","coef"
+"(Intercept)",-7.68384211653581
+"age",NA
+"hhsize",NA
+"povertyBelow",1.10082491865198
+"genderFemale",-0.982690165740256
+"raceHispanic",-1.55930456432584
+"raceBlack",0.0466461312065023
+"raceOther",-1.06060038162472
+"eduNoHighSchool",2.79979174813264
+"eduHighSchool",2.91037865589452
+"insNo",-0.900071210837824
